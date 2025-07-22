@@ -8,21 +8,18 @@ public class Counter : MonoBehaviour
     [SerializeField] private float _stepSize = 1f;
     [SerializeField] private float _changeInterval = 0.5f;
 
-    public float CurrentValue => _currentValue;
     public event Action<float> Changed;
 
     private Coroutine _currentCoroutine;
     private bool _isActive = false;
+    private WaitForSeconds _waitForSeconds;
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ToggleCounting();
-        }
+        _waitForSeconds = new WaitForSeconds(_changeInterval);
     }
 
-    private void ToggleCounting()
+    public void ToggleCounting()
     {
         if (!_isActive)
         {
@@ -31,19 +28,22 @@ public class Counter : MonoBehaviour
         }
         else
         {
-            StopCoroutine(_currentCoroutine);
-            _isActive = false;
+            if (_currentCoroutine != null)
+            {
+                StopCoroutine(_currentCoroutine);
+                _isActive = false;
+            }
         }
     }
 
     private IEnumerator IncreasesValue()
     {
-        bool _isPlay = true;
+        bool enabled = true;
 
-        while (_isPlay)
+        while (enabled)
         {
             AddValue(_stepSize);
-            yield return new WaitForSeconds(_changeInterval);
+            yield return _waitForSeconds;
         }
     }
 
