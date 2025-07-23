@@ -1,15 +1,15 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class InputReader : MonoBehaviour
-{  
-    public UnityEvent OnClickEvent;
+{
+    public event Action Clicked;
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            OnClickEvent?.Invoke(); 
+            Clicked?.Invoke(); 
         }
     }
 }

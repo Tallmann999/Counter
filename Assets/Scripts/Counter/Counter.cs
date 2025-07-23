@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(InputReader))]
 public class Counter : MonoBehaviour
 {
     [SerializeField] private float _currentValue;
     [SerializeField] private float _stepSize = 1f;
     [SerializeField] private float _changeInterval = 0.5f;
+    [SerializeField] private InputReader _inputReader;
 
     public event Action<float> Changed;
 
@@ -16,11 +18,9 @@ public class Counter : MonoBehaviour
 
     private void OnEnable()
     {
-        var inputReader = FindObjectOfType<InputReader>();
-
-        if (inputReader != null)
+        if (_inputReader != null)
         {
-            inputReader.OnClickEvent.AddListener(ToggleCounting);
+            _inputReader.Clicked += ToggleCounting;
         }
     }
 
@@ -31,14 +31,12 @@ public class Counter : MonoBehaviour
 
     private void OnDisable()
     {
-        var inputReader = FindObjectOfType<InputReader>();
-
-        if (inputReader != null)
+        if (_inputReader != null)
         {
-            inputReader.OnClickEvent.RemoveListener(ToggleCounting);
+            _inputReader.Clicked -= ToggleCounting;
         }
     }
-  
+
     public void ToggleCounting()
     {
         if (!_isActive)
