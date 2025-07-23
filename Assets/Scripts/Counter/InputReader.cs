@@ -1,20 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(Counter))]
 public class InputReader : MonoBehaviour
-{
-    [SerializeField] private Counter _counter;
+{  
+    public UnityEvent OnClickEvent;
 
     private void Update()
     {
-        ClickControl();
-    }
-
-    private void ClickControl()
-    {
         if (Input.GetMouseButtonDown(0))
         {
-            _counter.ToggleCounting();
+            OnClickEvent?.Invoke(); 
         }
     }
 }

@@ -14,11 +14,31 @@ public class Counter : MonoBehaviour
     private bool _isActive = false;
     private WaitForSeconds _waitForSeconds;
 
+    private void OnEnable()
+    {
+        var inputReader = FindObjectOfType<InputReader>();
+
+        if (inputReader != null)
+        {
+            inputReader.OnClickEvent.AddListener(ToggleCounting);
+        }
+    }
+
     private void Start()
     {
         _waitForSeconds = new WaitForSeconds(_changeInterval);
     }
 
+    private void OnDisable()
+    {
+        var inputReader = FindObjectOfType<InputReader>();
+
+        if (inputReader != null)
+        {
+            inputReader.OnClickEvent.RemoveListener(ToggleCounting);
+        }
+    }
+  
     public void ToggleCounting()
     {
         if (!_isActive)
