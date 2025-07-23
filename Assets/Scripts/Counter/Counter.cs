@@ -20,7 +20,7 @@ public class Counter : MonoBehaviour
     {
         if (_inputReader != null)
         {
-            _inputReader.Clicked += ToggleCounting;
+            _inputReader.Clicked += OnToggleCounting;
         }
     }
 
@@ -33,11 +33,11 @@ public class Counter : MonoBehaviour
     {
         if (_inputReader != null)
         {
-            _inputReader.Clicked -= ToggleCounting;
+            _inputReader.Clicked -= OnToggleCounting;
         }
     }
 
-    public void ToggleCounting()
+    public void OnToggleCounting()
     {
         if (!_isActive)
         {
